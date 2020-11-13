@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+ {% block content %}
+{% if messages %}
+<ul>
+	{% for message in messages %}
+	   <li>{{ message }}</li>
+	{% endfor %}
+</ul>
+{% endif %}
+<br> <!-- New line -->
+<p>
+    Pay someone with wallet
+</p>
+
+    {% for wallet in wallets %}
+<p> wallet balance: {{wallet.balance}} </p>
+<p>
+    <button onclick="location.href = '{% url 'pay_app:make_payment' 1 %}';"  class="submit-button" >start pay</button>
+</p>
+<button onclick="location.href = '{% url 'pay_app:topup' wallet.wallet_id %}';"  class="float-left submit-button" >topup</button>&nbsp
+{% empty %}
+         <li>No available wallet.</li>
+{% endfor %}
+<br> <!-- New line -->
+<br> <!-- New line -->
+<br> <!-- New line -->
+<p>
+    Pay someone with credit card
+</p>
+
+    {% for cc in ccs %}
+<p> card number: {{cc.card_number}} </p>
+<p>
+    <button onclick="location.href = '{% url 'pay_app:make_payment' 2 %}';"  class="submit-button" >start pay</button>
+</p>
+
+<p>
+
+    <button onclick="location.href = '{% url 'pay_app:add_cc' %}';"  class="float-left submit-button" >add_cc</button>
+</p>
+{% empty %}
+         <li>No available credit card.</li>
+      {% endfor %}
+
+
+
+
+
+
+{% endblock content %}
+

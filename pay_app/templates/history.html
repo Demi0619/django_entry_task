@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+   {% block content %}
+
+     <p>Transaction History for {{user.get_username}}.</p>
+     <ul>
+      {% for transaction in transactions %}
+         {% if transaction.status == 1 %}
+            {% if transaction.receiver_id == current_user.user_id %}
+            {% else %}
+               <li>
+           <p> - {{transaction.amount}}  </p>
+                   <p>pay to {{transaction.receiver.user_name}}</p>
+                   <form method="post" action="{% url 'pay_app:void' transaction.transaction_id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button name="submit">void</button>
+    <input type="hidden" name="next" value="{% url 'pay_app:history' %}" />
+  </form>
+       </li>
+            {% endif %}
+         {% elif transaction.status == 2 %}
+            {% if transaction.receiver_id == current_user.user_id %}
+            {% else %}
+         <li>
+            <p> + {{transaction.amount}} -voided</p>
+            <p> - {{transaction.amount}} </p>
+             <p>pay to {{transaction.receiver.user_name}}</p>
+             </li>
+            {% endif %}
+         {% elif transaction.status == 3 %}
+            {% if transaction.receiver_id == current_user.user_id %}
+               <li>
+           <p> + {{transaction.amount}}</p>
+       </li>
+            {% else %}
+               <li>
+           <p> - {{transaction.amount}} </p>
+                   <p>pay to {{transaction.receiver.user_name}}</p>
+           <form method="post" action="{% url 'pay_app:refund' transaction.transaction_id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button name="submit">refund</button>
+    <input type="hidden" name="next" value="{% url 'pay_app:history' %}" />
+  </form>
+       </li>
+            {% endif %}
+         {% elif transaction.status == 4 %}
+            {% if transaction.receiver_id == current_user.user_id %}
+         <li>
+            <p> + {{transaction.amount}} </p>
+             </li>
+            {% else %}
+         <li>
+            <p> - {{transaction.amount}} -refund requested</p>
+             <p>pay to {{transaction.receiver.user_name}}</p>
+             </li>
+            {% endif %}
+         {% elif transaction.status == 5 %}
+            {% if transaction.receiver_id == current_user.user_id %}
+         <li>
+             <p> - {{transaction.amount}} -refund</p>
+            <p> + {{transaction.amount}} </p>
+             </li>
+            {% else %}
+         <li>
+             <p> + {{transaction.amount}} -refund approved</p>
+            <p> - {{transaction.amount}} </p>
+             <p>pay to {{transaction.receiver.user_name}}</p>
+             </li>
+            {% endif %}
+         {% elif transaction.status == 6 %}
+            {% if transaction.receiver_id == current_user.user_id %}
+         <li>
+            <p> + {{transaction.amount}} </p>
+             </li>
+            {% else %}
+         <li>
+            <p> - {{transaction.amount}} -refund rejecetd</p>
+             <p>pay to {{transaction.receiver.user_name}}</p>
+             </li>
+            {% endif %}
+         {% elif transaction.status == 7 %}
+            {% if transaction.receiver_id == current_user.user_id %}
+         <li>
+            <p> + {{transaction.amount}} </p>
+             </li>
+            {% else %}
+         <li>
+            <p> - {{transaction.amount}} </p>
+             <p>pay to {{transaction.receiver.user_name}}</p>
+             </li>
+            {% endif %}
+         {% endif %}
+      {% empty %}
+         <li>No transaction has been started yet.</li>
+      {% endfor %}
+    </ul>
+
+   {% endblock content %}

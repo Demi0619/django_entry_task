@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+ {% block content %}
+{% if messages %}
+<ul>
+	{% for message in messages %}
+	   <li>{{ message }}</li>
+	{% endfor %}
+</ul>
+
+{% else %}
+  <p>Your payment has been successfully voided, please check in transaction history page! </p>
+{% endif %}
+ {% endblock content %}

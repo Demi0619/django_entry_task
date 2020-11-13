@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<p> </p>
+   {% if form.errors %}
+     <p>transaction unsuccessful. Please try again.</p>
+     {% endif %}
+   {% if messages %}
+<ul>
+	{% for message in messages %}
+	   <li>{{ message }}</li>
+	{% endfor %}
+</ul>
+{% endif %}
+
+   <form method="post" action="{% url 'pay_app:make_payment' channel_id%}">
+     {% csrf_token %}
+   {{ form.as_p }}
+
+   <button name="submit">pay</button>
+
+   <input type="hidden" name="next" value="{% url 'pay_app:history' %}" />
+     </form>
+
+   {% endblock content %}

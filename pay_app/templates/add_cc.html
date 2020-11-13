@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if messages %}
+<ul>
+	{% for message in messages %}
+	   <li>{{ message }}</li>
+	{% endfor %}
+</ul>
+{% endif %}
+  <p> add a credit card to pay</p>
+  <form method="post" action="{% url 'pay_app:add_cc' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button name="submit">add</button>
+    <input type="hidden" name="next" value="{% url 'pay_app:index' %}" />
+  </form>
+
+{% endblock content %}

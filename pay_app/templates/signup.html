@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <form method="post" action="{% url 'pay_app:signup' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button name="submit">register</button>
+    <input type="hidden" name="next" value="{% url 'pay_app:home' %}" />
+  </form>
+
+{% endblock content %}

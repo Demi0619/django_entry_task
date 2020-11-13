@@ -1,0 +1,14 @@
+{% extends "admin/change_form.html" %}
+{% block content %}
+<p>{{action}} refund for this transaction</p>
+ <form method="post" action="">
+    {% csrf_token %}
+{% for field in form %}
+     {{ field.label_tag }}
+     {{field}}
+     {% endfor %}
+    <button name="submit">submit</button>
+  </form>
+
+
+ {% endblock content %}

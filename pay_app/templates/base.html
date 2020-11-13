@@ -1,0 +1,14 @@
+<p>
+   <a href="{% url 'pay_app:home' %}">back to home</a> -
+   {% if user.is_authenticated %}
+     Hello, {{ user.username }} -
+    <a href="{% url 'pay_app:history' %}">view transaction history</a> -
+     <a href="{% url 'pay_app:logout' %}">log out</a>.
+     {% else %}
+     <a href="{% url 'pay_app:signup' %}">sign up</a> -
+     <a href="{% url 'pay_app:login' %}">log in</a>
+     {% endif %}
+
+   </p>
+
+ {% block content %}{% endblock content %}
